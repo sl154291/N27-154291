@@ -49,3 +49,7 @@ mit der Pfeiltaste "Nach oben" angezeigt und ausgeführt.
 * Button erstellen 
 * style einfügen über styles.css Datei 
 * Geschweifte Klammer mit AltGr+7 erstellen
+
+## 7.12.2021
+* Schriftfarbe in der styles.css angepasst
+* styles.css in public-Ordner verschoben 
