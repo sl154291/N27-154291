@@ -65,6 +65,8 @@ Sie können einen transparenten Hintergrund um ein unregelmäßig geformtes Obje
 * Bild einfügen: Hintergrund, Bank Logo 
 * auf commons wikimedia (https://commons.wikimedia.org/wiki/File:Icon_bank_sentral.png) ein bank Icon Logo heruntergeladen und es in unserer Indix.ejs Datei eingefügt 
 * Alt-Tag beim Bild verstehen: Für Menschen mit einer Barriere, die es nicht anschauen 
+* Hyperlink link einbauen mit <a href ...></a>
+* Target beim hyperlink verstehen. _blank öffnet im neuen Tab 
 
 ## 14.01.2021
 * HTML (Konstrukte einbauen, die mann nicht kennt)
