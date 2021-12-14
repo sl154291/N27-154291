@@ -1,4 +1,15 @@
 body {
     font-family: Arial, Helvetica, sans-serif
-    color
+    font-size: large;
+    color: burlywood;
+    background-image: url('Hintergrundbild.jpg');
+    
 }
+    div {
+        font-size:xx-small; 
+        background-image: url('img_girl.jpg');
+      }
+    
+}
+
+

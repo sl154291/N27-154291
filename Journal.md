@@ -53,3 +53,20 @@ mit der Pfeiltaste "Nach oben" angezeigt und ausgeführt.
 ## 7.12.2021
 * Schriftfarbe in der styles.css angepasst
 * styles.css in public-Ordner verschoben 
+
+## 10.12.2021
+* verschiedene Elemente in HTML recherchieren und einbauen. 
+* Gute und weniger gute Quellen im Internet erkennen. Gut sind beispeilsweise w3school oder selfhtml. 
+* verschiedene Elemente in HTML stylen. 
+
+## 14.12.2021 
+* Unterschied jpg und einer png Datei(Vorteil der png Datei):
+Sie können einen transparenten Hintergrund um ein unregelmäßig geformtes Objekt legen und so vermeiden, dass immer ein weisser oder andersfarbiger Kasten um das Bild erscheint.
+* Bild einfügen: Hintergrund, Bank Logo 
+* auf commons wikimedia (https://commons.wikimedia.org/wiki/File:Icon_bank_sentral.png) ein bank Icon Logo heruntergeladen und es in unserer Indix.ejs Datei eingefügt 
+* Alt-Tag beim Bild verstehen: Für Menschen mit einer Barriere, die es nicht anschauen 
+
+## 14.01.2021
+* HTML (Konstrukte einbauen, die mann nicht kennt)
+* CSS
+
