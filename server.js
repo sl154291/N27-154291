@@ -13,3 +13,19 @@ app.get('/',(req, res, next) => {
     res.render('index.ejs', {})          
 })
 
+// Wenn die login-Seite im Browser aufgerufen wird, ...
+
+app.get('/login',(req, res, next) => {  
+    
+   //... dann wird die login.ejs vom 
+
+    res.render('login.ejs', {})          
+})
+
+
+// Die App.post('login')wird ausgeführt, sobald der Button 
+// auf dem Login-Formular gedrückt wird. 
+app.post('/login',(req, res, next) => {              
+    res.render('index.ejs', {})          
+}) 
+

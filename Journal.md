@@ -35,8 +35,7 @@ werden vom Browser nicht interpretiert
 * 
 
 ## 30.11.2021
-* AM Anfang der Stunde wird der eigene Webserver im Terminal gestartet. Der Befehl wird 
-mit der Pfeiltaste "Nach oben" angezeigt und ausgeführt. 
+* Am Anfang der Stunde wird der eigene Webserver im Terminal gestartet. Der Befehl wird mit der Pfeiltaste "Nach oben" angezeigt und ausgeführt. 
 * Steuerung C Server schließen
 * Im Browser wird der Inhalt über die Adresse localhost:3000 aufgerufen. 
 * Der localhost ist der eigene Rechner 
@@ -63,12 +62,54 @@ mit der Pfeiltaste "Nach oben" angezeigt und ausgeführt.
 * Unterschied jpg und einer png Datei(Vorteil der png Datei):
 Sie können einen transparenten Hintergrund um ein unregelmäßig geformtes Objekt legen und so vermeiden, dass immer ein weisser oder andersfarbiger Kasten um das Bild erscheint.
 * Bild einfügen: Hintergrund, Bank Logo 
-* auf commons wikimedia (https://commons.wikimedia.org/wiki/File:Icon_bank_sentral.png) ein bank Icon Logo heruntergeladen und es in unserer Indix.ejs Datei eingefügt 
+* auf commons wikimedia (https://commons.wikimedia.org/wiki/File:Icon_bank_sentral.png) ein bank Icon Logo heruntergeladen und es in unserer Index.ejs Datei eingefügt 
 * Alt-Tag beim Bild verstehen: Für Menschen mit einer Barriere, die es nicht anschauen 
 * Hyperlink link einbauen mit <a href ...></a>
 * Target beim hyperlink verstehen. _blank öffnet im neuen Tab 
 
+## 17.12.2021
+* html liste stylen 
+* Quelltext von Bäumer hochgeladen: 
+* Don't copy the git.ordner
+* Tabelle einfügen 
+* Zeilen <tr>(Table Row) und Zellen <td> (=Table data)in HTML-Tabellen verstehen 
+* Listen (geordnet <o> und ungeordnet <ul>) verstehen 
+* in ungeordneten Listen den Aufzählpunkt durch Bild ersetzen 
+* horizontale Linie einbauen <hr> (horizontel Row)
+
+## 21.12.2021 
+* Zeilenumbruch <br> einbauen 
+* irgendwas in HTML erstellen KL
+* neue Konstrukte einbauen W3school pdf
+
+
 ## 14.01.2021
 * HTML (Konstrukte einbauen, die mann nicht kennt)
 * CSS
+* ein lauffähiges Projekt mit einer leeren Index.ejs wird ausgeteilt. Es ist keine styles.css vorhanden 
+* Die styles.css muss angelegt und richtig eingebaut werden. 
+* Teil 1: HTML und CSS nach Vorgabe einbauen, dazu müssen die HTML Konstrukte aus dem Unterricht bekannt sein. 
+* Teil 2: Ein unbekanntes Konstrukt muss im Internet gesucht und eingebaut werden 
 
+## 11.01.2022
+* https://wiki.selfhtml.org/wiki/HTML/Tutorials/Einstieg
+* w3schools 
+* zum Lernen für die Klausur 
+* Die Styles aus der Styles.css müssen gekonnt werden. Es kann auch sein, dass unbekannte Styles nach Vorgabe eingebaut werden müssen. Beispiel: gebe der Tabelle einen Rahmen(border) mit der Dicke 1. 
+
+## 18.01.2022
+* weitere Seite erstellen, indem
+1. die Index.ejs kopiert und umbenannt wurde 
+2. Hyperlink erstellt 
+
+## 21.01.2022
+* login-Seite erstellen 
+* Formular aus W3schools kopiert und eingebaut 
+* Type der Inputs entsprechend von Text auf Password bzw. Number geändert 
+* die ID der Inputs setzen 
+* Verlinkung von login nach Index und zurück erstellen 
+
+## 25.01.2022
+* Unterschied Post und Get verstehen.Get transportiert die Daten vom Browser zum Server über die Adresszeile. Post transportiert die Daten "hinter den Kulissen"
+* Mit Alt + Tab zwischen Browser und VSC hin und herspringen 
+* Unterschied zwischen App.get(...) und App.post verstehen. app.get(...)wird ausgeführt, wenn die Login-Seite im Browser angefordert wird. app.post ('login') wird ausgeführt, wenn der Button auf der Login-Seite gedrückt wird. 
