@@ -1,4 +1,6 @@
-// Übungen zu Klasse und Objekt
+console.log("Übungen zu Klasse und Objekt")
+console.log("==================")
+
 
 // Übung 1
 // In einem Fußballverein sollen Spieler verwaltet werden. 
@@ -7,32 +9,81 @@
 // c) Instanzieren Sie ein Objekt der Klasse
 // d) Initialisieren Sie das Objekt mit Eigenschaftswerten
 
-class Spieler{
-    constructor(){
+// zu a) das Objekt der realen Welt ist der Spieler.
+
+// zu b) 
+
+class Spieler {
+    constructor() {
         this.name
         this.position
         this.Verein
         this.Nummer
     }
 }
-
+// zu c) 
+// Es wird nun ein konkreter Spieler mit konkreten Eigenschaften erzeugt. 
+// Dazu wird der konkrete Spieler deklariert (=bekanntgemacht): let spielerMueller
+// In einem zweiten Schritt wird der konkrete Spieler instanziiert = new Spieler()
 let spielerMueller = new Spieler()
-spielerMueller.Name = "Thomas Müller"
-spielerMueller.Nummer = "25"
-spielerMueller.position = "Stürmer"
-spielerMueller.Verein = "FCB"
 
+// zu d) Es werden konrete Eigenschaftswerte in den Arbeitsspeicher geschrieben: 
+spielerMueller.Name = "Thomas Müller"
+spielerMueller.Nummer = 25
+spielerMueller.Position = "Stürmer"
+spielerMueller.Verein = "FCB"
+spielerMueller.Alter = 18
+
+if (spielerMueller.Alter >= 18) {
+    spielerMueller.Volljaehrig = true
+    console.log("Der Spieler " + spielerMueller.Name + " ist volljährig. ")
+}
+
+console.log(spielerMueller.Name)
+console.log(spielerMueller.Position)
+console.log("Der Spieler " + spielerMueller.Name + " hat die Nummer " + spielerMueller.Nummer + ".")
 
 
 // Übung 2
-// In einem Schulprogramm sollen Zeugnisse verwaltet werden. 
+// In einem Schulverwaltungsprogramm sollen Zeugnisse verwaltet werden. 
 // a) Identifizieren Sie das Objekt der realen Welt mit seinen relevanten Eigenschaften
 // b) Erstellen Sie die Klassendefinition
 // c) Instanzieren Sie ein Objekt der Klasse
 // d) Initialisieren Sie das Objekt mit Eigenschaftswerten
 
+// zu a) Das "Zeugnis" ist das Objekt der realen Welt. 
 
+// zu b) 
 
+class Zeugnis {
+    constructor() {
+        this.SchuelerName
+        this.Klasse
+        this.Geburtsdatum
+        this.Gesamtnote
+        this.Fehlstunden
+        this.Faecher
+    }
+}
+
+// zu c) 
+let zeugnisPit = new Zeugnis()
+let zeugnisMax = new Zeugnis()
+
+// zu d) 
+zeugnisPit.SchuelerName = "Pit Kiff"
+zeugnisPit.Fehlstunden = 1000
+zeugnisPit.Gesamtsnote = 1
+
+zeugnisMax.SchuelerName = "Max Mustermann"
+zeugnisMax.Fehlstunden = 10
+zeugnisMax.Gesamtnote = 2
+
+if (zeugnisMax.Fehlstunden > zeugnisPit.Fehlstunden) {
+    console.log("Max Muster hat mehr Fehlstunden")
+} else {
+    console.log("Pit Kiff hat mehr Fehlstunden")
+}
 
 
 
@@ -43,7 +94,34 @@ spielerMueller.Verein = "FCB"
 // c) Instanzieren Sie ein Objekt der Klasse
 // d) Initialisieren Sie das Objekt mit Eigenschaftswerten
 
+// zu a) Die Objekte der realen Welt sind die Produkte
 
+// zu b) 
+class Produkt {
+    constructor() {
+        this.BruttoPreis
+        this.Bezeichnung
+        this.MwStSatz
+        this.Barcode
+    }
+}
+
+// zu c) 
+// Deklaration und Instanzierung 
+let produkt = new Produkt()
+
+// zu d) 
+
+produkt1.Bezeichnung = "Kaugummi"
+produkt1.Barcode = 5901234123457
+produkt1.BruttoPreis = 1.19 // Im Quellcode steht anstelle des Kommas ein Punkt
+produkt1.MwStSatz = 19 // Prozent
+
+console.log("Das Produkt " + produkt1.Bezeichnung + " hat den Bruttopreis " + produkt1.BruttoPreis + "€.")
+
+produkt1.Nettopreis = produkt1.BruttoPreis / (100 + produkt1.MwStSatz) * 100
+
+console.log("Nettopreis: " + produkt1.Nettopreis + " €.")
 
 
 
@@ -54,6 +132,47 @@ spielerMueller.Verein = "FCB"
 // b) Erstellen Sie die Klassendefinition
 // c) Instanzieren Sie ein Objekt der Klasse
 // d) Initialisieren Sie das Objekt mit Eigenschaftswerten
+
+// // zu a) Der "Stand" ist das Objekt der realen Welt. 
+
+// zu b) 
+
+class Stand {
+    constructor() {
+        this.StandName
+        this.Klasse
+        this.AnzahlTeilnehmer
+        this.Aktivität
+        this.Preis
+    }
+}
+
+// zu c) 
+let StandFussball = new Stand()
+let StandWaffeln = new Stand()
+
+// zu d) 
+StandFussball.Aktivität = "Fussball"
+StandFussball.Preis = 0
+StandFussball.AnzahlTeilnehmer = 8
+
+StandWaffeln.Aktivität = "WaffelnBacken"
+StandWaffeln.Preis = 1, 00
+StandWaffeln.AnzahlTeilnehmer = 3
+
+if (StandWaffeln.Preis > StandFussball.Preis) {
+    console.log("Bei dem Waffel-Stand muss man mehr Geld bezahlen als beim Fussball-Stand")
+} else {
+    console.log("Bei dem Fussball-Stand sind die Kosten höher als wie beim Waffel-Stand")
+}
+
+if (StandFussball.AnzahlTeilnehmer > StandWaffeln.AnzahlTeilnehmer) {
+    console.log("Bei dem Fussball-Stand stehen mehr Schüler als beim Waffel-Stand")
+} else {
+    console.log("Bei dem Waffel-Stand stehen mehr Schüler als  beim Fussball-Stand")
+}
+
+
 
 
 
