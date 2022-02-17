@@ -108,7 +108,7 @@ class Produkt {
 
 // zu c) 
 // Deklaration und Instanzierung 
-let produkt = new Produkt()
+let produkt1 = new Produkt()
 
 // zu d) 
 
@@ -123,7 +123,11 @@ produkt1.Nettopreis = produkt1.BruttoPreis / (100 + produkt1.MwStSatz) * 100
 
 console.log("Nettopreis: " + produkt1.Nettopreis + " €.")
 
-
+if(produkt1.Bezeichnung > 1){
+    console.log("Achtung! Preis von " + produkt1.Bezeichnung + " muss gesenkt werden!")
+}else{
+    console.log("Preis ist von " + produkt1.Bezeichnung +" o.k.")
+}
 
 
 // Übung 4
@@ -132,6 +136,7 @@ console.log("Nettopreis: " + produkt1.Nettopreis + " €.")
 // b) Erstellen Sie die Klassendefinition
 // c) Instanzieren Sie ein Objekt der Klasse
 // d) Initialisieren Sie das Objekt mit Eigenschaftswerten
+// e) Geben si eausgewählte Eigenschaften auf der console aus. 
 
 // // zu a) Der "Stand" ist das Objekt der realen Welt. 
 
@@ -148,28 +153,28 @@ class Stand {
 }
 
 // zu c) 
-let StandFussball = new Stand()
-let StandWaffeln = new Stand()
+let standFussball = new Stand()
+let standWaffeln = new Stand()
 
 // zu d) 
-StandFussball.Aktivität = "Fussball"
-StandFussball.Preis = 0
-StandFussball.AnzahlTeilnehmer = 8
+standFussball.Aktivität = "Fussball"
+standFussball.Preis = 0
+standFussball.AnzahlTeilnehmer = 8
 
-StandWaffeln.Aktivität = "WaffelnBacken"
-StandWaffeln.Preis = 1, 00
-StandWaffeln.AnzahlTeilnehmer = 3
+standWaffeln.Aktivität = "WaffelnBacken"
+standWaffeln.Preis = 1, 00
+standWaffeln.AnzahlTeilnehmer = 3
 
-if (StandWaffeln.Preis > StandFussball.Preis) {
+if (standWaffeln.Preis > standFussball.Preis) {
     console.log("Bei dem Waffel-Stand muss man mehr Geld bezahlen als beim Fussball-Stand")
 } else {
     console.log("Bei dem Fussball-Stand sind die Kosten höher als wie beim Waffel-Stand")
 }
 
-if (StandFussball.AnzahlTeilnehmer > StandWaffeln.AnzahlTeilnehmer) {
-    console.log("Bei dem Fussball-Stand stehen mehr Schüler als beim Waffel-Stand")
+if (standFussball.AnzahlTeilnehmer > standWaffeln.AnzahlTeilnehmer) {
+    console.log("Bei dem " + standFussball.Aktivität + " stehen mehr Schüler als beim Waffel-Stand.")
 } else {
-    console.log("Bei dem Waffel-Stand stehen mehr Schüler als  beim Fussball-Stand")
+    console.log("Bei dem " + standWaffeln.Aktivität + " stehen mehr Schüler als  beim Fussball-Stand.")
 }
 
 
