@@ -14,6 +14,7 @@ class Kunde{
       this.Kontostand
       this.Geburtsdatum
       this.Mail
+      this.Telefonnummer 
   }
 }
 
@@ -148,3 +149,11 @@ meineApp.get('/about',(browserAnfrage, serverAntwort, next) => {
   serverAntwort.render('about.ejs', {
   })          
 })
+
+meineApp.get('/profil',(browserAnfrage, serverAntwort, next) => {              
+  serverAntwort.render('profil.ejs', {
+  })          
+})
+
+
+
