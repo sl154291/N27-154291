@@ -25,20 +25,19 @@
                  
             <a href="/login">Logout</a>
         </div>
-        <div class="inhaltsbereich">
             <div class="inhaltsbereich">
                 <form method="post">
                     <label for="fname">Vorname:</label><br>
-                    <input type="Vorname" name="Vorname" id="Vorname" value="Vorname">
-                    <label for="name">Nachname:</label><br>
-                    <input type="Nachname" name="Nachname"id="Nachname" value="Nachname">
-                    <label for="Mail">E-Mail</label>
-                    <input type="Name" name="E-Mail" id="maennlich" value="E-Mail">
-                    <label for="Telefon">Telefonnummer</label>
-                    <input type="number" name="Telefonnummer" id="number" value="number">
+                    <input type="text" name="Vorname" readonly value=<%= Vorname %>  ><br>
+                    <label for="lname">Nachname:</label><br>
+                    <input type="text" name="Nachname" readonly value=<%= Nachname %> ><br>
+                    <label for="Mail">E-Mail:</label><br>
+                    <input type="email" name="Mail" value=<%= Mail %>  ><br>
+                    <label for="Rufnummer">Rufnummer</label><br>
+                    <input type="tel" name="Rufnummer" value=<%= Rufnummer %>  ><br>
+                   
 
-                    <button class="speichern" formaction="/">Daten speichern</button>
-                    <input type="submit" name="button1" value="Save new Data"> 
+                    <button class="login" formaction="/login">Änderungen speichern</button>
                 </form> 
         </div>
         <div class="fusszeile">
