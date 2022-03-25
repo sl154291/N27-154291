@@ -27,7 +27,7 @@ let kunde = new Kunde()
 
 kunde.IdKunde = 154291
 kunde.Nachname = "Ronaldo"
-kunde.Vorname = "Christiano"
+kunde.Vorname = "Thomas"
 kunde.Geburtsdatum = "23.10.2000"
 kunde.Mail = "Ronaldo@web.de"
 kunde.Kennwort = "123"
@@ -136,13 +136,6 @@ meineApp.get('/login',(browserAnfrage, serverAntwort, next) => {
 // Die meineApp.post('login') wird ausgeführt, sobald der Button
 // auf dem Login-Formular gedrückt wird.
 
-meineApp.get('/about',(browserAnfrage, serverAntwort, next) => {              
-  serverAntwort.render('about', {})          
-})
-
-// require('./Uebungen/ifUndElse.js')
-// require('./Uebungen/klasseUndObjekt.js')
-
 
 meineApp.get('/about',(browserAnfrage, serverAntwort, next) => {              
 
@@ -157,9 +150,36 @@ meineApp.get('/profil',(browserAnfrage, serverAntwort, next) => {
       Vorname: kunde.Vorname,
       Nachname: kunde.Nachname,
       Mail: kunde.Mail,
-      Rufnummer: kunde.Rufnummer
+      Rufnummer: kunde.Rufnummer,
+      Kennwort: kunde.Kennwort
     })          
 })
 
 
+// require('./Uebungen/ifUndElse.js')
+// require('./Uebungen/klasseUndObjekt.js')
 
+
+// Sobald der Speichern-Button auf der Profile-Seite gedrückt wird,
+// wird die meineApp.post('profile'...)abgearbeitet. 
+
+meineApp.post('/profil',(browserAnfrage, serverAntwort, next) => {              
+  
+  // Der Wert der Eigenschaft von Mail im Browser wird 
+  // zugewiesen (=) an die Eigenschaft Mail des Objekts kunde 
+  
+  kunde.Mail = browserAnfrage.body.Mail //von rechts nach links lesen: wird zugewiesen zu Mail des Objekts Kunden 
+  kunde.Kennwort = browserAnfrage.body.Kennwort
+  kunde.Rufnummer = browserAnfrage.body.Rufnummer
+
+  console.log("Profil gespeichert")
+  
+
+      serverAntwort.render('profil.ejs', {
+        Vorname: kunde.Vorname,
+        Nachname: kunde.Nachname,
+        Mail: kunde.Mail,
+        Rufnummer: kunde.Rufnummer,
+        Kennwort: kunde.Kennwort
+      })
+})

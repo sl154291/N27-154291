@@ -14,16 +14,20 @@
         <div class="kopf">
             <h1>N27 - Mein Profil</h1>            
         </div>
-
-        <div class="navigationsleiste">
+        
+        <div class="navigationsleiste">            
             <a href="/">
-                <i class="fa fa-home" aria-hidden="true"></i>
-            </a>
+                <i class="fa fa-home fa-2x" aria-hidden="true" title="Willkommen"></i>
+            </a> --
+            <a href="/profil">
+                <i class="fa fa-user fa-2x" aria-hidden="true" title="Mein Profil"></i>
+            </a>   --
             <a href="/about">
-                <i class="fa fa-info" aria-hidden="true"></i>
+                <i class="fa fa-info fa-2x" aria-hidden="true" title="Über uns"></i>
+            </a>   --
+            <a href="/login">
+                <i class="fa fa-sign-out fa-2x" title="Abmelden"></i>
             </a>
-                 
-            <a href="/login">Logout</a>
         </div>
             <div class="inhaltsbereich">
                 <form method="post">
@@ -31,13 +35,15 @@
                     <input type="text" name="Vorname" readonly value=<%= Vorname %>  ><br>
                     <label for="lname">Nachname:</label><br>
                     <input type="text" name="Nachname" readonly value=<%= Nachname %> ><br>
-                    <label for="Mail">E-Mail:</label><br>
+                    <label for="fname">Mail:</label><br>
                     <input type="email" name="Mail" value=<%= Mail %>  ><br>
-                    <label for="Rufnummer">Rufnummer</label><br>
+                    <label for="fname">Kennwort</label><br>
+                    <input type="password" name="Kennwort" value=<%= Kennwort %>  ><br>
+                    <label for="fname">Rufnummer</label><br>
                     <input type="tel" name="Rufnummer" value=<%= Rufnummer %>  ><br>
-                   
+                    
 
-                    <button class="login" formaction="/login">Änderungen speichern</button>
+                    <button class="login" formaction="/profil" onclick="alert('Änderungen gespeichert!')">Änderungen speichern</button>
                 </form> 
         </div>
         <div class="fusszeile">

@@ -8,25 +8,29 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">    
         <title>Login</title>
     </head>
-    <body>    
+    <body>  
         <div class="rahmen">
             <div class="kopf">
                 <h1>N27 Bank</h1>
             </div>
             <div class="navigationsleiste">
-                 Bitte anmelden
+                <a href="/login">
+                    <i class="fa fa-sign-in fa-2x" title="Anmelden" aria-hidden="true"></i>
+                </a>    
             </div>
             <div class="inhaltsbereich">
                 <form method="post">
                     <label for="fname">Benutzer-ID:</label><br>
-                    <input type="number" name="IdKunde"><br>
-                    <label for="lname">Kennwort:</label><br>
-                    <input type="password" name="Kennwort"><br><br>        
+                    <input type="number" name="IdKunde"><br>   
+                    <label for="lname">password:</label><br>
+                    <input type="password" name="Kennwort" minlength="2"><br><br>
                     <button class="login" formaction="/login">Einloggen</button>
                 </form> 
+                <p class="meldung"><%= meldung %></p>
             </div>
             <div class="fusszeile">
                 <i class="fa fa-copyright" aria-hidden="true"></i> GW21A 2022
+               
             </div>
         </div>
     </body>
