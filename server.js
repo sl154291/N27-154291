@@ -151,7 +151,8 @@ meineApp.get('/profil',(browserAnfrage, serverAntwort, next) => {
       Nachname: kunde.Nachname,
       Mail: kunde.Mail,
       Rufnummer: kunde.Rufnummer,
-      Kennwort: kunde.Kennwort
+      Kennwort: kunde.Kennwort,
+      Erfolgsmeldung: ""
     })          
 })
 
@@ -165,21 +166,61 @@ meineApp.get('/profil',(browserAnfrage, serverAntwort, next) => {
 
 meineApp.post('/profil',(browserAnfrage, serverAntwort, next) => {              
   
+  // die Erfolgsmeldung für das Speichern der geänderten 
+  // Profildaten wird in eine lokale Variable namens
+  // erfolgsmeldung gespeichert. 
+
+  let erfolgsmeldung = ""
+
   // Der Wert der Eigenschaft von Mail im Browser wird 
   // zugewiesen (=) an die Eigenschaft Mail des Objekts kunde 
   
-  kunde.Mail = browserAnfrage.body.Mail //von rechts nach links lesen: wird zugewiesen zu Mail des Objekts Kunden 
-  kunde.Kennwort = browserAnfrage.body.Kennwort
+  if(kunde.Mail != browserAnfrage.body.Mail){
+
+      // Wenn der Wert der Eigenschaft von kunde.Mail abweicht 
+      // vom Wert der Eigenschaft Mail aus dem Browser-Formular 
+      // dann wird die Erfolgsmeldung initialisiert: 
+
+      erfolgsmeldung = erfolgsmeldung + "Änderung der Mail erfolgreich."
+      kunde.Mail = browserAnfrage.body.Mail
+      console.log(erfolgsmeldung)
+  }
+
+  if(kunde.Kennwort != browserAnfrage.body.Kennwort){
+
+    // Wenn der Wert der Eigenschaft von kunde.Kennwort abweicht 
+    // vom Wert der Eigenschaft Kennwort aus dem Browser-Formular 
+    // dann wird die Erfolgsmeldung initialisiert: 
+
+    erfolgsmeldung = erfolgsmeldung + "Änderung des Kennworts erfolgreich."
+    kunde.Kennwort = browserAnfrage.body.Kennwort
+    console.log(erfolgsmeldung)
+}
+
+if(kunde.Rufnummer != browserAnfrage.body.Rufnummer){
+
+  // Wenn der Wert der Eigenschaft von kunde.Rufnummer abweicht 
+  // vom Wert der Eigenschaft Rufnummer aus dem Browser-Formular 
+  // dann wird die Erfolgsmeldung initialisiert: 
+
+  erfolgsmeldung = erfolgsmeldung + "Änderung der Rufnummer erfolgreich."
+  kunde.Rufnummer = browserAnfrage.body.Rufnummer
+  console.log(erfolgsmeldung)
+}
+
+
+  //von rechts nach links lesen: wird zugewiesen zu Mail des Objekts Kunden 
+  kunde.Kennwort = browserAnfrage.body.Kennwort // der Wert von K. wird zugewiesen an die Eigenschaft K. vom Kunden 
   kunde.Rufnummer = browserAnfrage.body.Rufnummer
 
   console.log("Profil gespeichert")
   
-
       serverAntwort.render('profil.ejs', {
         Vorname: kunde.Vorname,
         Nachname: kunde.Nachname,
         Mail: kunde.Mail,
         Rufnummer: kunde.Rufnummer,
-        Kennwort: kunde.Kennwort
+        Kennwort: kunde.Kennwort,
+        Erfolgsmeldung: erfolgsmeldung
       })
 })
