@@ -64,9 +64,9 @@
     margin-bottom: 10px;
     margin-right: 10%;
     margin-left: 10%;  
-        
+    text-align: center;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 1.5em;  
+    font-size: 2vh;  
     color:black;
   }
   
@@ -118,10 +118,33 @@
     color: white;  
     text-decoration: none;
     }
+
+  .schaltflaeche {  
+    color: blue;  
+    text-decoration: none;
+    }
     
   p {
     color: red;
+    text-align: center;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 1,5vh; 
   }
 
+  button type {
+    color: rgb(30, 0, 255);
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1,5vh; 
+  }
+
+.back {
+  color: rgb(30, 0, 255);
+  width: 80%;
+  margin-bottom: 10px;
+  margin-right: 10%;
+  margin-left: 10%;  
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 3vh; 
+}

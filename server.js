@@ -5,6 +5,51 @@
 // Alle Kunden unserer Bank haben dieselben Eigenschaften, aber
 // unterschiedliche Eigenschaftswerte
 
+class Kundenberater{
+  constructor(){
+      this.IdKundenberater
+      this.Nachname
+      this.Vorname
+      this.Position
+      this.Profil 
+      this.Mail
+      this.Rufnummer
+      this.Bergruessung 
+  }
+}
+
+// Es wird ein Kundenberater-Objekt instaziiert
+
+let kundenberater = new Kundenberater()
+
+kundenberater.IdKundenberater = 55555
+kundenberater.Nachname = "Eris"
+kundenberater.Vorname = "Marcel"
+kundenberater.Profil = "https://www.instagram.com/lxkas_25/"
+kundenberater.Mail = "montana@n27.com"
+kundenberater.Rufnummer = "+49564/123456"
+kundenberater.Bergruessung = "Hallo, ich bin's, Dein Kundenberater!"
+kundenberater.Position = "Chefberater"
+
+class Konto{
+  constructor(){
+    this.Kontostand
+    this.IBAN 
+    this.Kontoart
+    this.PIN 
+  }
+}
+
+// Instanzzierung eines Objekts namens konto vom Typ Konto 
+
+let konto = new Konto()
+
+konto.Kontostand = 1000000                                 
+konto.IBAN = "DE1234567890123456"
+konto.Kontoart = "Tagesgeldkonto"
+konto.PIN = 987123
+
+
 class Kunde{
   constructor(){
       this.IdKunde
@@ -17,6 +62,7 @@ class Kunde{
       this.Rufnummer
   }
 }
+
 
 // Von der Kunden-Klasse wird eine konkrte Instanz
 // gebildet. 
@@ -68,7 +114,7 @@ meineApp.get('/',(browserAnfrage, serverAntwort, next) => {
       // Wenn der Kunde noch nicht eigeloggt ist, soll
       // die Loginseite an den Browser zurückgegeben werden.
       serverAntwort.render('login.ejs', {
-          meldung : ""
+          Meldung : ""
       })
   }                 
 })
@@ -111,7 +157,7 @@ meineApp.post('/login',(browserAnfrage, serverAntwort, next) => {
       // gerenderte Login-Seite an den Browser zurückgegeben.
 
       serverAntwort.render('login.ejs', {
-          meldung : "Ihre Zugangsdaten scheinen nicht zu stimmen."
+          Meldung : "Ihre Zugangsdaten scheinen nicht zu stimmen."
       })
   }
 })
@@ -129,23 +175,23 @@ meineApp.get('/login',(browserAnfrage, serverAntwort, next) => {
     // Der Cookie wird gelöscht.
     
   serverAntwort.render('login.ejs', {
-      meldung : "Bitte geben Sie die Zugangsdaten ein."
+      Meldung : "Bitte geben Sie die Zugangsdaten ein."
   })          
 })
 
-// Die meineApp.post('login') wird ausgeführt, sobald der Button
-// auf dem Login-Formular gedrückt wird.
+// Wenn die about-Seite angesurft wird, wird die about-Seite 
+// zum Browser zurückgegeben. 
 
-
-meineApp.get('/about',(browserAnfrage, serverAntwort, next) => {              
 
  
-  serverAntwort.render('about.ejs', {
-  })          
-})
 
 meineApp.get('/profil',(browserAnfrage, serverAntwort, next) => {              
   
+  if(browserAnfrage.signedCookies['istAngemeldetAls']){
+
+    // Wenn der Kunde bereits angemeldet ist, soll die
+    // Index-Seite an den Browser gegeben werden.
+
     serverAntwort.render('profil.ejs', {
       Vorname: kunde.Vorname,
       Nachname: kunde.Nachname,
@@ -153,9 +199,16 @@ meineApp.get('/profil',(browserAnfrage, serverAntwort, next) => {
       Rufnummer: kunde.Rufnummer,
       Kennwort: kunde.Kennwort,
       Erfolgsmeldung: ""
-    })          
-})
+    })       
+  }else{
 
+    // Wenn der Kunde noch nicht eigeloggt ist, soll
+    // die Loginseite an den Browser zurückgegeben werden.
+    serverAntwort.render('login.ejs', {
+        Meldung : ""
+    })
+  }       
+})
 
 // require('./Uebungen/ifUndElse.js')
 // require('./Uebungen/klasseUndObjekt.js')
@@ -170,7 +223,7 @@ meineApp.post('/profil',(browserAnfrage, serverAntwort, next) => {
   // Profildaten wird in eine lokale Variable namens
   // erfolgsmeldung gespeichert. 
 
-  let erfolgsmeldung = ""
+  let Erfolgsmeldung = ""
 
   // Der Wert der Eigenschaft von Mail im Browser wird 
   // zugewiesen (=) an die Eigenschaft Mail des Objekts kunde 
@@ -181,9 +234,9 @@ meineApp.post('/profil',(browserAnfrage, serverAntwort, next) => {
       // vom Wert der Eigenschaft Mail aus dem Browser-Formular 
       // dann wird die Erfolgsmeldung initialisiert: 
 
-      erfolgsmeldung = erfolgsmeldung + "Änderung der Mail erfolgreich."
+      Erfolgsmeldung = Erfolgsmeldung + "Änderung der Mail erfolgreich."
       kunde.Mail = browserAnfrage.body.Mail
-      console.log(erfolgsmeldung)
+      console.log(Erfolgsmeldung)
   }
 
   if(kunde.Kennwort != browserAnfrage.body.Kennwort){
@@ -192,9 +245,9 @@ meineApp.post('/profil',(browserAnfrage, serverAntwort, next) => {
     // vom Wert der Eigenschaft Kennwort aus dem Browser-Formular 
     // dann wird die Erfolgsmeldung initialisiert: 
 
-    erfolgsmeldung = erfolgsmeldung + "Änderung des Kennworts erfolgreich."
+    Erfolgsmeldung = Erfolgsmeldung + "Änderung des Kennworts erfolgreich."
     kunde.Kennwort = browserAnfrage.body.Kennwort
-    console.log(erfolgsmeldung)
+    console.log(Erfolgsmeldung)
 }
 
 if(kunde.Rufnummer != browserAnfrage.body.Rufnummer){
@@ -203,9 +256,9 @@ if(kunde.Rufnummer != browserAnfrage.body.Rufnummer){
   // vom Wert der Eigenschaft Rufnummer aus dem Browser-Formular 
   // dann wird die Erfolgsmeldung initialisiert: 
 
-  erfolgsmeldung = erfolgsmeldung + "Änderung der Rufnummer erfolgreich."
+  Erfolgsmeldung = Erfolgsmeldung + "Änderung der Rufnummer erfolgreich."
   kunde.Rufnummer = browserAnfrage.body.Rufnummer
-  console.log(erfolgsmeldung)
+  console.log(Erfolgsmeldung)
 }
 
 
@@ -221,6 +274,62 @@ if(kunde.Rufnummer != browserAnfrage.body.Rufnummer){
         Mail: kunde.Mail,
         Rufnummer: kunde.Rufnummer,
         Kennwort: kunde.Kennwort,
-        Erfolgsmeldung: erfolgsmeldung
+        Erfolgsmeldung: Erfolgsmeldung
       })
 })
+
+
+
+
+meineApp.get('/support',(browserAnfrage, serverAntwort, next) => {              
+  
+  if(browserAnfrage.signedCookies['istAngemeldetAls']){
+
+
+    serverAntwort.render('support.ejs', {
+      Vorname: kundenberater.Vorname,
+      Nachname: kundenberater.Nachname,
+      Mail: kundenberater.Mail,
+      Rufnummer: kundenberater.Rufnummer,
+      Profil: kundenberater.Profil,
+      Position: kundenberater.Position,
+      Bergruessung: kundenberater.Bergruessung
+    })   
+
+  }else{
+
+    // Wenn der Kunde noch nicht eigeloggt ist, soll
+    // die Loginseite an den Browser zurückgegeben werden.  
+    serverAntwort.render('login.ejs', {
+        Meldung : ""
+    })
+}   
+})
+
+
+meineApp.get('/kontostandAnzeigen',(browserAnfrage, serverAntwort, next) => {              
+
+  // Wenn der Anmelde-Cookie gesetzt ist, wird der Nutzer zur
+  // About-Seite gelenkt. 
+
+  if(browserAnfrage.signedCookies['istAngemeldetAls']){
+
+    // Die About-Seite wird an den Browser gegeben: 
+
+    serverAntwort.render('kontostandAnzeigen.ejs', {
+      Erfolgsmeldung : ""
+  })          
+      
+  }else{
+
+    // Wenn der Kunde noch nicht eigeloggt ist, soll
+    // die Loginseite an den Browser zurückgegeben werden.
+    serverAntwort.render('login.ejs', {
+        Meldung : ""
+    })
+  }        
+})
+
+
+require('./Uebungen/ifUndElse.js')
+require('./Uebungen/klasseUndObjekt.js')
