@@ -18,6 +18,25 @@ class Kundenberater{
   }
 }
 
+
+class Fussballer{
+  constructor(){
+      this.Position
+      this.Verein
+      this.Name
+      this.Lieblingsverein
+  }
+}
+
+let fussballer = new Fussballer()
+
+fussballer.Name = "Petersen"
+fussballer.Position = "Rechtsmittelfeld" 
+fussballer.Lieblingsverein = "Fc Bayern"
+fussballer.Verein = "Bayern Munich"
+
+
+
 // Es wird ein Kundenberater-Objekt instaziiert
 
 let kundenberater = new Kundenberater()
@@ -120,7 +139,7 @@ meineApp.get('/',(browserAnfrage, serverAntwort, next) => {
 })
 
 //Die Methode meineApp.post('/login'...)wird abgearbeitet, sobald 
-// der Anwender im Login-Formular auf "EInloggen" klickt. 
+// der Anwender im Login-Formular auf "Einloggen" klickt. 
 
 
 meineApp.post('/login',(browserAnfrage, serverAntwort, next) => {              
@@ -331,5 +350,7 @@ meineApp.get('/kontostandAnzeigen',(browserAnfrage, serverAntwort, next) => {
 })
 
 
-require('./Uebungen/ifUndElse.js')
-require('./Uebungen/klasseUndObjekt.js')
+// require('./Uebungen/ifUndElse.js')
+// require('./Uebungen/klasseUndObjekt.js')
+
+require('./Uebungen/klausur.js')
