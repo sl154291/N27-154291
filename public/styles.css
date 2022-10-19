@@ -23,6 +23,8 @@
   
   .inhaltsbereich{
     min-height: 470px;
+    display: flex;
+    flex-direction: column;
   }
   
   .fusszeile{
@@ -131,12 +133,30 @@
     font-size: 1,5vh; 
   }
 
-  button type {
-    color: rgb(30, 0, 255);
+ 
+  .button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
     text-align: center;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 1,5vh; 
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
   }
+
+
+
+
+
+form {
+  display: flex;
+}
+
+
+
+
+
 
 .back {
   color: rgb(30, 0, 255);

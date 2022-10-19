@@ -50,6 +50,22 @@ kundenberater.Rufnummer = "+49564/123456"
 kundenberater.Bergruessung = "Hallo, ich bin's, Dein Kundenberater!"
 kundenberater.Position = "Chefberater"
 
+
+class Kredit{
+  constructor(){
+    this.Zinssatz 
+    this.Laufzeit
+    this.Betrag
+  }
+
+// Eine funktion berechnet etwas. Im Namen der Funktion steht also immer ein Verb. 
+
+berechneGesamtkostenKreditNachEinemJahr(){
+    return Betrag * this.Zinssatz / 100 + this.Betrag
+  }
+
+}
+
 class Konto{
   constructor(){
     this.Kontostand
@@ -58,6 +74,7 @@ class Konto{
     this.PIN 
   }
 }
+
 
 // Instanzzierung eines Objekts namens konto vom Typ Konto 
 
@@ -350,7 +367,96 @@ meineApp.get('/kontostandAnzeigen',(browserAnfrage, serverAntwort, next) => {
 })
 
 
+meineApp.get('/kreditBerechner',(browserAnfrage, serverAntwort, next) => {              
+  
+  // Wenn ein signierter Cookie mit Namen 'istAngemeldetAls' im Browser vorhanden ist,
+  // dann ist die Prüfung wahr und es wird die gerenderte Index-Seite an den Browser 
+  // zurückgegeben. Anderenfalls wird die Login-Seite an den Browser gegeben. 
+
+  if(browserAnfrage.signedCookies['istAngemeldetAls']){
+
+  
+
+      serverAntwort.render('kreditBerechner.ejs',{})
+  }else{
+
+      // Wenn der Kunde noch nicht eigeloggt ist, soll
+      // die Loginseite an den Browser zurückgegeben werden.
+      serverAntwort.render('index.ejs', {
+          Meldung : ""
+      })
+  }                 
+})
+
+
+meineApp.post('/kreditBerechner',(browserAnfrage, serverAntwort, next) => {              
+  
+  // die Erfolgsmeldung für das Speichern der geänderten 
+  // Profildaten wird in eine lokale Variable namens
+  // erfolgsmeldung gespeichert. 
+
+  let Erfolgsmeldung = ""
+
+  // Der Wert der Eigenschaft von Mail im Browser wird 
+  // zugewiesen (=) an die Eigenschaft Mail des Objekts kunde 
+  
+  if(kunde.Mail != browserAnfrage.body.Mail){
+
+      // Wenn der Wert der Eigenschaft von kunde.Mail abweicht 
+      // vom Wert der Eigenschaft Mail aus dem Browser-Formular 
+      // dann wird die Erfolgsmeldung initialisiert: 
+
+      Erfolgsmeldung = Erfolgsmeldung + "Änderung der Mail erfolgreich."
+      kunde.Mail = browserAnfrage.body.Mail
+      console.log(Erfolgsmeldung)
+  }
+
+  if(kunde.Kennwort != browserAnfrage.body.Kennwort){
+
+    // Wenn der Wert der Eigenschaft von kunde.Kennwort abweicht 
+    // vom Wert der Eigenschaft Kennwort aus dem Browser-Formular 
+    // dann wird die Erfolgsmeldung initialisiert: 
+
+    Erfolgsmeldung = Erfolgsmeldung + "Änderung des Kennworts erfolgreich."
+    kunde.Kennwort = browserAnfrage.body.Kennwort
+    console.log(Erfolgsmeldung)
+}
+
+if(kunde.Rufnummer != browserAnfrage.body.Rufnummer){
+
+  // Wenn der Wert der Eigenschaft von kunde.Rufnummer abweicht 
+  // vom Wert der Eigenschaft Rufnummer aus dem Browser-Formular 
+  // dann wird die Erfolgsmeldung initialisiert: 
+
+  Erfolgsmeldung = Erfolgsmeldung + "Änderung der Rufnummer erfolgreich."
+  kunde.Rufnummer = browserAnfrage.body.Rufnummer
+  console.log(Erfolgsmeldung)
+}
+
+
+  //von rechts nach links lesen: wird zugewiesen zu Mail des Objekts Kunden 
+  kunde.Kennwort = browserAnfrage.body.Kennwort // der Wert von K. wird zugewiesen an die Eigenschaft K. vom Kunden 
+  kunde.Rufnummer = browserAnfrage.body.Rufnummer
+
+  console.log("Profil gespeichert")
+  
+      serverAntwort.render('profil.ejs', {
+        Vorname: kunde.Vorname,
+        Nachname: kunde.Nachname,
+        Mail: kunde.Mail,
+        Rufnummer: kunde.Rufnummer,
+        Kennwort: kunde.Kennwort,
+        Erfolgsmeldung: Erfolgsmeldung
+      })
+})
+
+
+
+
+
+
+
 // require('./Uebungen/ifUndElse.js')
 // require('./Uebungen/klasseUndObjekt.js')
 
-require('./Uebungen/klausur.js')
+require('./Klausuren/20221026_klausur.js')

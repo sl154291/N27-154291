@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,14 +7,15 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>N27</title>
+    <title>N27 - Kredit berechnen</title>
 </head>
 <body>
     <div class="rahmen">
         <div class="kopf">
-            <h1>Willkommen bei der N27</h1>            
+            <h1>N27 - Kredit berechnen</h1>            
         </div>
-        <div class="navigationsleiste">
+        
+        <div class="navigationsleiste">            
             <a href="/">
                 <i class="fa fa-home fa-2x" aria-hidden="true" title="Willkommen"></i>
             </a> --
@@ -29,26 +30,24 @@
             </a>   --
             <a href="/login">
                 <i class="fa fa-sign-out fa-2x" title="Abmelden"></i>
-            </a>
+            </a>   --
         </div>
-            
         <div class="inhaltsbereich">
+            <form method="post">
+                <label>Gewünschter Kreditbetrag:</label><br>
+                <input type="number" name="Betrag" value=<%= Betrag %> ><br>
+                <label>Gewünschte Laufzeit:</label><br>
+                <input type="number" name="Laufzeit" value=<%= Laufzeit %> ><br>
+                <label>Gewünschter Zinssatz:</label><br>
+                <input type="number" name="Zinssatz" value=<%= Zinssatz %>  ><br>
+                
+                
 
-        <form action="/kontostandAnzeigen">
-            <a class="schaltflaeche" href="/kontostandAnzeigen"></a>
-
-            <form>
-            <button formaction="/kontostandAnzeigen" type="submit"> <i class="fa fa-university" title="Kontostand anzeigen" aria-hidden="true"></i> Mein Konto anzeigen</button>
-            </form>
-
-        
-        <form action="/kreditberechner">
-            <a class="schaltflaeche" href="/kreditBerechner"></a>
-    
-            <form>
-            <button formaction="/kreditBerechner" type="submit"> <i class="fa fa-credit-card-alt" title="zum Kredit-Berechner" aria-hidden="true"></i> Mein Kredit ausrechnen</button>
-            </form>
-       
+                <button class="login" formaction="/kreditberechner">Kredit berechnen/>
+            </form> 
+            <p class="erfolgsmeldung"><%=Erfolgsmeldung%></p>
+                    
+                    
         </div>
         <div class="fusszeile">
             &copy; 2022 GW21A
