@@ -1,3 +1,93 @@
+// Das installierte MYSQL-Modul wird mit require() eingebunden. 
+// Das MySQL-Modul stellt die Verbindung zwischen der App und der
+// MySQL-Datenbank her.
+// Eine Datenbank wird benötigt, wenn Daten auch nach der Laufzeit des 
+// Programms noch weiter existieren sollen. 
+// Außerdem ermöglicht die Datenbank, dass z.B. Geldüberweisungen 
+// zwischen Anwendern möglich werden.
+
+var mysql = require('mysql');
+
+// Die Verbindung zur Datenbank wird hergestellt. Dazu werden die 
+// Adresse und die Anmeldedaten der Datenbank angegeben. 
+
+var dbVerbindung = mysql.createConnection({
+  host: "10.40.38.110",
+  user: "placematman",
+  password: "BKB123456!"
+});
+
+dbVerbindung.connect(function(err) {
+  
+  // Wenn die Verbindung scheitert, wird ein Fehler geworfen.
+
+  
+  if (err) throw err;
+
+  // Wenn die Verbindung aufgebaut werden kann, wir der Erfolg
+  // auf der Console geloggt. 
+
+  console.log("Connected!");
+});
+
+// Die Verbindung zur Datenbank wird geöffnet. 
+
+dbVerbindung.connect(function(fehler){
+
+  // Die Tabelle namens kunde wird erstellt. 
+  // Die Spalten heißen: idKunde, vorname, nachname, ort, kennwort, mail
+  // VARCHAR(45) legt den Datentyp der Spalte auf "Text" mit der Länge max. 45 Zeichen fest. 
+  // INT(11) begrenzt die Eingabe auf 11 Ziffern. 
+  // idKunde ist Primary Key. Das bedeutet, dass die idKunde den Datensatz eindeutig
+  // kennzeichnet. 
+
+  dbVerbindung.query('CREATE TABLE kunde(idKunde INT(11), vorname VARCHAR(45), nachname VARCHAR(45), ort VARCHAR(45), kennwort VARCHAR(45), mail VARCHAR(45), PRIMARY KEY(idKunde));', function (fehler) {
+  
+    // Falls ein Problem bei der Query aufkommt, ...
+  
+    if (fehler) {
+
+        // ... und der Fehlercode "ER_TABLE_EXISTS_ERROR" lautet,
+
+      if(fehler.code == "ER_TABLE_EXISTS_ERROR"){
+
+        // ... dann wird eine Fehlermeldung geloggt.
+
+    console.log("Tabelle kunde existiert bereits und wird nicht angelegt.")
+    }else{
+    console.log("Fehler: " + fehler )
+    }
+   }else{
+    console.log("Tabelle Kunde erfolgreich angelegt.")
+    }
+   })
+   })
+
+
+
+
+   class Kredit{
+    constructor(){
+        this.Zinssatz
+        this.Laufzeit
+        this.Betrag
+    }
+
+    // Eine Funktion berechnet etwas. Im Namen der Funktion steht also immer ein Verb.
+
+    berechneGesamtkostenKreditNachEinemJahr(){
+        return this.Betrag * this.Zinssatz / 100 + this.Betrag
+    }
+}
+
+let kredit = new Kredit()
+
+kredit.Laufzeit = "12 Monate"
+kredit.Name = "Bausparkredit" 
+kredit.MonatlicheZinsen = 200
+kredit.Summe = 600.000
+
+
 // Programme verarbeiten oft Objekte der realen Welt.
 // Objekte haben Eigenschaften.
 // In unserem Bankingprogramm interessieren uns Objekte,
@@ -459,4 +549,4 @@ if(kunde.Rufnummer != browserAnfrage.body.Rufnummer){
 // require('./Uebungen/ifUndElse.js')
 // require('./Uebungen/klasseUndObjekt.js')
 
-require('./Klausuren/20221026_klausur.js')
+//require('./Klausuren/20221026_klausur.js')
