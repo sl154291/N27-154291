@@ -21,8 +21,13 @@
 
 .inhaltsbereich{
   min-height: 470px;
-  color: hsl(139, 84%, 35%);
+  color: hsl(115, 94%, 48%);
+  margin-bottom: 10px;  
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  font-size: 3vh;
 }
+
 
 .fusszeile{
   padding: 2px;
@@ -100,6 +105,17 @@ label {
   font-size: 2vh;  
   color: rgb(228, 52, 52);
 }
+
+.erfolg{
+  width: 80%;
+  margin-bottom: 10px;
+  margin-right: 10%;
+  margin-left: 10%;  
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 3vh;  
+  color: rgb(4, 249, 4);
+}
+
   
 .divii {
   border-radius: 5px;

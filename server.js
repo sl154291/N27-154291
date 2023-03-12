@@ -16,16 +16,29 @@ var mysql = require('mysql');
 // Adresse und die Anmeldedaten der Datenbank angegeben. 
 
 var dbVerbindung = mysql.createConnection({
-  host: "10.40.38.110",
+  
+  // Der host ist der Server auf dem die Datenbank installiert ist.  
+  // Der host kann über seinen Namen oder die IP-Adresse adressiert werden. 
+  // Wenn der host nicht reagiert, kann mit ping 10.40.38.110 geprüft werden, 
+  // ob der Rechner eingeschaltet ist. 
+  // Wenn der Rechner auf ping antwortet, aber kein connect aufgebaut werden kann, 
+  // dann muss geprüft werden, ob der Datenbank-Dienst auf dem Rechner läuft. Dazu 
+  // melden wir uns auf den Datenbankserver an und starten die MSQL-Workbench.  
+  
+  host: "10.40.38.110",    
   user: "placematman",
   password: "BKB123456!",
   database: "dbn27"
 });
 
+// Die dbVerbindung ruft die connect-Methode auf, um eine Verbindung mit der 
+// Datenbank herzustellen. 
+
 dbVerbindung.connect(function(err) {
   
   // Wenn die Verbindung scheitert, wird ein Fehler geworfen.
-
+  // Wenn die Datenbank nicht innerhalb einer definierten Zeit auf 
+  // den connect-Versuch antwortet, kommt ein TIMEOUT-Fehler. 
   
   if (err) throw err;
 
@@ -49,7 +62,85 @@ dbVerbindung.connect(function(fehler){
   // idKunde ist Primary Key. Das bedeutet, dass die idKunde den Datensatz eindeutig
   // kennzeichnet. Das wiederum bedeutet, dass kein zweiter Kunde mit derselben idKunde angelegt werden kann. 
 
-  dbVerbindung.query('CREATE TABLE kunde(idKunde INT(11), vorname VARCHAR(45), nachname VARCHAR(45), ort VARCHAR(45), kennwort VARCHAR(45), mail VARCHAR(45), PRIMARY KEY(idKunde));', function (fehler) {
+dbVerbindung.query('CREATE TABLE kunde(idKunde INT(11), vorname VARCHAR(45), nachname VARCHAR(45), ort VARCHAR(45), kennwort VARCHAR(45), mail VARCHAR(45), PRIMARY KEY(idKunde));', function (fehler) {
+  
+    // Falls ein Problem bei der Query aufkommt, ...
+  
+    if (fehler) {
+
+        // ... und der Fehlercode "ER_TABLE_EXISTS_ERROR" lautet,...
+
+        if(fehler.code == "ER_TABLE_EXISTS_ERROR"){
+
+            // ... dann wird eine Fehlermeldung geloggt.
+
+            console.log("Tabelle kunde existiert bereits und wird nicht angelegt.")
+      
+        }else{
+            console.log("Fehler: " + fehler )
+        }
+    }else{ 
+            console.log("Tabelle Kunde erfolgreich angelegt.")
+         }
+    })
+});
+
+dbVerbindung.connect(function(fehler){
+  
+  dbVerbindung.query('CREATE TABLE kredit(idKunde INT(11), datum DATETIME, zinssatz FLOAT, laufzeit INT(11), betrag SMALLINT, PRIMARY KEY(idKunde,datum));', function (fehler) {
+        
+      // Falls ein Problem bei der Query aufkommt, ...
+        
+      if (fehler) {
+        
+          // ... und der Fehlercode "ER_TABLE_EXISTS_ERROR" lautet, ...
+    
+          if(fehler.code == "ER_TABLE_EXISTS_ERROR"){
+    
+              //... dann wird eine Fehlermdldung geloggt. 
+    
+              console.log("Tabelle kredit existiert bereits und wird nicht angelegt.")
+            
+          }else{
+              console.log("Fehler: " + fehler )
+          }
+      }else{
+              console.log("Tabelle kredit erfolgreich angelegt.")
+       }
+    })
+});
+  
+// Eine Tabelle namens Konto mit den Eigenschaften iban, idKunde, anfangssaldo, kontoart, timestamp wird neu angelegt,
+// falls sie noch nicht existiert
+
+dbVerbindung.connect(function(fehler){
+  
+  dbVerbindung.query('CREATE TABLE konto(iban VARCHAR(45), idKunde INT(11), anfangssaldo FLOAT, kontoart VARCHAR(45), timestamp TIMESTAMP, PRIMARY KEY(iban));', function (fehler) {
+        
+      // Falls ein Problem bei der Query aufkommt, ...
+        
+      if (fehler) {
+        
+          // ... und der Fehlercode "ER_TABLE_EXISTS_ERROR" lautet, ...
+    
+          if(fehler.code == "ER_TABLE_EXISTS_ERROR"){
+    
+              //... dann wird eine Fehlermdldung geloggt. 
+    
+              console.log("Tabelle kredit existiert bereits und wird nicht angelegt.")
+            
+          }else{
+              console.log("Fehler: " + fehler )
+          }
+      }else{
+              console.log("Tabelle kredit erfolgreich angelegt.")
+       }
+    })
+});
+  
+// Ein Kunde soll neu in der Datenbank angelegt werden.
+
+dbVerbindung.query('INSERT INTO kunde(idKunde, vorname, nachname, ort, kennwort, mail) VALUES (154291, "George", "High", "BOR", "123!", "pk@web.de") ;', function (fehler) {
   
     // Falls ein Problem bei der Query aufkommt, ...
   
@@ -57,203 +148,61 @@ dbVerbindung.connect(function(fehler){
 
         // ... und der Fehlercode "ER_TABLE_EXISTS_ERROR" lautet,
 
-      if(fehler.code == "ER_TABLE_EXISTS_ERROR"){
+        if(fehler.code == "ER_TABLE_EXISTS_ERROR"){
 
-        // ... dann wird eine Fehlermeldung geloggt.
+            // ... dann wird eine Fehlermeldung geloggt.
 
-    console.log("Tabelle kunde existiert bereits und wird nicht angelegt.")
+            console.log("Tabelle kredit existiert bereits und wird nicht angelegt.")
+
+        }else{
+            console.log("Fehler: " + fehler )
+        }
     }else{
-    console.log("Fehler: " + fehler )
-    }
-   }else{
-    console.log("Tabelle Kunde erfolgreich angelegt.")
-    }
-   })
-   })
-
-
-   dbVerbindung.query('CREATE TABLE kredit(idKunde INT(11), zinssatz FLOAT, laufzeit INT(11), betrag SMALLINT, PRIMARY KEY(idKunde, datum));', function (fehler) {
-  
-    // Falls ein Problem bei der Query aufkommt, ...
-  
-    if (fehler) {
-
-        // ... und der Fehlercode "ER_TABLE_EXISTS_ERROR" lautet,
-
-      if(fehler.code == "ER_TABLE_EXISTS_ERROR"){
-
-        // ... dann wird eine Fehlermeldung geloggt.
-
-    console.log("Tabelle kredit existiert bereits und wird nicht angelegt.")
-    }else{
-    console.log("Fehler: " + fehler )
-    }
-   }else{
-    console.log("Tabelle kredit erfolgreich angelegt.")
-    }
-   })
-
-
-
-    // Tabelle namens konto wird erstellt 
-    // Kontoart, Kontostand, PIN, IBAN (als Primary key), Zeitstempel der Anlage
-
-   dbVerbindung.query('CREATE TABLE konto(iban VARCHAR(45), idkunde INT(11), anfangssaldo FLOAT, kontoart VAR(45), timestamp TIMESTAMP; Primary Key(iban));', function (fehler) {
-  
-    // Falls ein Problem bei der Query aufkommt, ...
-  
-    if (fehler) {
-
-        // ... und der Fehlercode "ER_TABLE_EXISTS_ERROR" lautet,
-
-      if(fehler.code == "ER_TABLE_EXISTS_ERROR"){
-
-        // ... dann wird eine Fehlermeldung geloggt.
-
-    console.log("Tabelle konto existiert bereits und wird nicht angelegt.")
-    }else{
-    console.log("Fehler: " + fehler )
-    }
-   }else{
-    console.log("Tabelle Konto erfolgreich angelegt.")
-    }
-   })
-   
-
-
-   // Ein Kunde soll neu in der Datenbank angelegt werden. 
-
-   dbVerbindung.query('INSERT INTO kunde(idKunde, vorname, nachname, ort, kennwort, mail) VALUES (154291, "Pit", "Kiff", "BOR", "123!", "pk@web.de") ;', function (fehler) {
-  
-    // Falls ein Problem bei der Query aufkommt, ...
-  
-    if (fehler) {
-
-        // ... und der Fehlercode "ER_TABLE_EXISTS_ERROR" lautet,
-
-      if(fehler.code == "ER_TABLE_EXISTS_ERROR"){
-
-        // ... dann wird eine Fehlermeldung geloggt.
-
-    console.log("Tabelle kredit existiert bereits und wird nicht angelegt.")
-    }else{
-    console.log("Fehler: " + fehler )
-    }
-   }else{
-    console.log("Tabelle kredit erfolgreich angelegt.")
-    }
-   })
-
+            console.log("Tabelle kredit erfolgreich angelegt.")
+     }
+});
 
 class Kredit{
-  constructor(){
-      this.idkunde
-      this.Name
-      this.Laufzeit
-      this.Zinssatz
-      this.Betrag
+    constructor(){
+        this.Laufzeit
+        this.Zinssatz
+        this.Betrag
+    }
+
+    // Eine Funktion berechnet etwas. Im Namen der Funktion steht also immer ein Verb.
+
+    berechneGesamtkostenKreditNachEinemJahr(){
+      return this.Betrag * this.Zinssatz / 100 + this.Betrag
   }
 }
 
-let kredit = new Kredit()
 
-
-kredit.idkunde = 12345678
-kredit.Zinssatz = "3%"
-kredit.Laufzeit = "12 Monate"
-kredit.Name = "Bausparkredit" 
-kredit.MonatlicheZinsen = 200
-kredit.Summe = 600.000
-
-// Programme verarbeiten oft Objekte der realen Welt.
-// Objekte haben Eigenschaften.
-// In unserem Bankingprogramm interessieren uns Objekte,
+// Programme verarbeiten oft Objekte der realen Welt. Objekte haben 
+// Eigenschaften. In unserem Bankingprogramm interessieren uns Objekte,
 // wie z.B. Kunde, Konto, Filiale, Bankautomat, ...
 // Alle Kunden unserer Bank haben dieselben Eigenschaften, aber
-// unterschiedliche Eigenschaftswerte
-
-class Kundenberater{
-  constructor(){
-      this.IdKundenberater
-      this.Nachname
-      this.Vorname
-      this.Position
-      this.Profil 
-      this.Mail
-      this.Rufnummer
-      this.Bergruessung 
-  }
-}
-
-class Fussballer{
-  constructor(){
-      this.Position
-      this.Verein
-      this.Name
-      this.Lieblingsverein
-  }
-}
-
-let fussballer = new Fussballer()
-
-fussballer.Name = "Petersen"
-fussballer.Position = "Rechtsmittelfeld" 
-fussballer.Lieblingsverein = "Fc Bayern"
-fussballer.Verein = "Bayern Munich"
-
-
-// Es wird ein Kundenberater-Objekt instaziiert
-
-let kundenberater = new Kundenberater()
-
-kundenberater.IdKundenberater = 55555
-kundenberater.Nachname = "Eris"
-kundenberater.Vorname = "Andreas"
-kundenberater.Profil = "https://www.instagram.com/lxkas_25/"
-kundenberater.Mail = "montana@n27.com"
-kundenberater.Rufnummer = "+49564/123456"
-kundenberater.Bergruessung = "Hallo, ich bin's, Dein Kundenberater!"
-kundenberater.Position = "BachelorofLOVE"
-
-
-class Konto{
-  constructor(){
-    this.Kontostand
-    this.IBAN 
-    this.Kontoart
-    this.PIN 
-    this.ZeitstempelDerAnlage
-  }
-}
-
-// Instanzzierung eines Objekts namens konto vom Typ Konto 
-
-let konto = new Konto()
-
-konto.Kontostand = 1000000                                 
-konto.IBAN = "DE1234567890123456"
-konto.Kontoart = "Tagesgeldkonto"
-konto.PIN = 987123
+// unterschiedliche Eigenschaftswerte.
 
 class Kunde{
-  constructor(){
-      this.IdKunde
-      this.Nachname
-      this.Vorname
-      this.Kennwort
-      this.Kontostand
-      this.Geburtsdatum
-      this.Mail
-      this.Rufnummer
-  }
+    constructor(){
+        this.IdKunde
+        this.Nachname
+        this.Vorname
+        this.Kennwort
+        this.Kontostand
+        this.Geburtsdatum
+        this.Mail
+        this.Rufnummer
+    }
 }
 
-// Von der Kunden-Klasse wird eine konkrte Instanz
-// gebildet. 
+// Von der Kunden-Klasse wird eine konkrte Instanz gebildet. 
 
 let kunde = new Kunde()
 
 // Die konkrete Instanz bekommt Eigenschaftswerte zugewiesen.
+
+
 
 kunde.IdKunde = 154291
 kunde.Nachname = "Ronaldo"
@@ -262,6 +211,69 @@ kunde.Geburtsdatum = "23.10.2000"
 kunde.Mail = "Ronaldo@web.de"
 kunde.Kennwort = "123"
 kunde.Rufnummer = "+49123/456789"
+
+class Kundenberater{
+    constructor(){
+        this.IdKundenberater
+        this.Nachname
+        this.Vorname
+        this.Position
+        this.Mail
+        this.Rufnummer
+        this.Bergruessung 
+    }
+}
+
+// Es wird ein Kundenberater-Objekt instaziiert
+
+let kundenberater = new Kundenberater()
+
+// Die konkrete Instanz bekommt Eigenschaftswerte zugewiesen.
+
+kundenberater.IdKundenberater = 55555
+kundenberater.Nachname = "Eris"
+kundenberater.Vorname = "Andreas"
+kundenberater.Mail = "montana@n27.com"
+kundenberater.Rufnummer = "+49564/123456"
+kundenberater.Bergruessung = "Hallo, ich bin's, Dein Kundenberater!"
+kundenberater.Position = "BachelorofLOVE"
+
+// Die Klasse Konto ist der Bauplan für alle konto-Objekte.
+// In der Klasse werden alle relevanten Eigenschaften definiert.
+// Die konto-Objekte, die aus dieser Klasse erzeugt werden, haben die selben
+// Eigenschaften, aber unterschiedliche Eigenschaftswerte.
+
+class Konto{
+    constructor(){
+
+        // Die relevanten Eigenschaften werden im Konstruktor aufgelistet.
+        // Eigenschaften werden immer großgeschrieben
+
+      this.Kontostand
+      this.IBAN 
+      this.Kontoart
+      this.PIN 
+    }
+}
+
+// Instanzzierung eines Objekts namens konto vom Typ Konto 
+// "let konto" bedeutet, dass ein Objekt namens konto exisitieren soll. Man sagt,
+// das konto wird deklariert.
+
+// "= new Konto()" nennt man die instanziierung. Bei der Instanziierung wird Festplatten-
+// speicher reserviert, um bei der anschließenden Initialisierung konkrete Eigenschafts-
+// werte für das Objekt zu speichern.
+
+let konto = new Konto()
+
+// Bei der Initialisierung werden konkrete Eigenschaftswerte in die reservierten Speicher-
+// zellen geschrieben.
+
+// Die Zuweisung von Eigenschaftswerten geschieht immer von rechts nach links.
+                               
+konto.IBAN = "DE1234567890123456"
+konto.Kontostand = 1000000 
+konto.Kontoart = "Giro"
 
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -276,331 +288,314 @@ const server = meineApp.listen(process.env.PORT || 3000, () => {
   console.log('Server lauscht auf Port %s', server.address().port)    
 })
 
-// Die Methode meineApp.get('/' ...) wird abgearbeitet, wenn
-// der Kunde die Indexseite (localhost:3000 bzw. 
-// n27.herokuapp.com ansurft.
-
+// Die Methode meineApp.get('/' ...) wird abgearbeitet, sobald
+// der Kunde die Indexseite (localhost:3000 bzw. n27.herokuapp.com) ansurft.
 
 meineApp.get('/',(browserAnfrage, serverAntwort, next) => {              
   
-  // Wenn ein signierter Cookie mit Namen 'istAngemeldetAls' im Browser vorhanden ist,
-  // dann ist die Prüfung wahr und es wird die gerenderte Index-Seite an den Browser 
-  // zurückgegeben. Anderenfalls wird die Login-Seite an den Browser gegeben. 
+    // Wenn ein signierter Cookie mit Namen 'istAngemeldetAls' im Browser vorhanden ist,
+    // dann ist die Prüfung wahr und die Anweisungen im Rumpf der if-Kontrollstruktur 
+    // werden abgearbeitet. Gerenderte Index-Seite wird an den Browser zurückgegeben, anderenfalls wird die Login-Seite an den Browser gegeben. 
 
-  if(browserAnfrage.signedCookies['istAngemeldetAls']){
+    if(browserAnfrage.signedCookies['istAngemeldetAls']){
 
-      // Wenn der Kunde bereits angemeldet ist, soll die
-      // Index-Seite an den Browser gegeben werden.
+        // Wenn der Kunde bereits angemeldet ist, soll die Index-Seite an den Browser gegeben werden:
 
-      serverAntwort.render('index.ejs',{})
-  }else{
+        serverAntwort.render('index.ejs',{})
+    }else{
 
-      // Wenn der Kunde noch nicht eigeloggt ist, soll
-      // die Loginseite an den Browser zurückgegeben werden.
-      serverAntwort.render('login.ejs', {
-          Meldung : ""
+        // Wenn der Kunde noch nicht eigeloggt ist, soll
+        // die Loginseite an den Browser zurückgegeben werden.
+        serverAntwort.render('login.ejs', {
+        Meldung : ""
       })
-  }                 
+    }                 
 })
 
-
-meineApp.get('/about',(browserAnfrage, serverAntwort, next) => {              
-
-  // Wenn der Anmelde-Cookie gesetzt ist, wird der Nutzer zur
-  // About-Seite gelenkt.
-
-  if(browserAnfrage.signedCookies['istAngemeldetAls']){
-      
-      // Die About-Seite wird an den Browser gegeben:
-
-      serverAntwort.render('about.ejs',{})
-  }else{
-
-      // Wenn der Kunde noch nicht eigeloggt ist, soll
-      // die Loginseite an den Browser zurückgegeben werden.
-      serverAntwort.render('login.ejs', {
-          Meldung: ""
-      })
-  }         
-})
-
-
-
-//Die Methode meineApp.post('/login'...)wird abgearbeitet, sobald 
-// der Anwender im Login-Formular auf "Einloggen" klickt. 
+// Die Methode meineApp.post('/login' ...) wird abgearbeitet, sobald
+// der Anwender im Login-Formular auf "Einloggen" klickt.
 
 meineApp.post('/login',(browserAnfrage, serverAntwort, next) => {              
   
-  // Die im Browser eingegeben IdKunde und Kennwort werden zugewiesen 
-  // an die Konstanten names idKunde und kennwort. 
+    // Die im Browser eingegeben IdKunde und Kennwort werden zugewiesen 
+    // an die Konstanten names idKunde und kennwort. 
   
-  const idKunde = browserAnfrage.body.IdKunde
-  const kennwort = browserAnfrage.body.Kennwort
+    const idKunde = browserAnfrage.body.IdKunde
+    const kennwort = browserAnfrage.body.Kennwort
   
-  console.log("ID des Kunden: " + idKunde)
-  console.log("Kennwort des Kunden: " + kennwort)
+    console.log("ID des Kunden: " + idKunde)
+    console.log("Kennwort des Kunden: " + kennwort)
 
-  // Die Identität des Kunden wird überprüft.
+    // Die Identität des Kunden wird überprüft.
   
-  if(idKunde == kunde.IdKunde && kennwort == kunde.Kennwort){
+    if(idKunde == kunde.IdKunde && kennwort == kunde.Kennwort){
     
-    // Ein Cookie namens 'istAngemeldetAls' wird beim Browser gesetzt
-    // Der Wert des Cookies ist das in eine Zeichenkette umgewandelte Kunden-Objekt. 
-    // Der Cookie wird signiert, also gegen Manipulationen geschützt. 
+        // Ein Cookie namens 'istAngemeldetAls' wird beim Browser gesetzt
+        // Der Wert des Cookies ist das in eine Zeichenkette umgewandelte Kunden-Objekt. 
+        // Der Cookie wird signiert, also gegen Manipulationen geschützt. 
 
-      serverAntwort.cookie('istAngemeldetAls',JSON.stringify(kunde),{signed:true})
-      console.log("Der Cookie wurde erfolgreich gesetzt.")
+        serverAntwort.cookie('istAngemeldetAls',JSON.stringify(kunde),{signed:true})
+        console.log("Der Cookie wurde erfolgreich gesetzt.")
 
-      // Wenn die Id des Kunden mit der Eingabe im Browser übereinstimmt
-      // UND ("&&") das Kennwort ebenfalls übereinstimmt,
-      // dann gibt der Server die gerenderte Index-Seite zurück.
+        // Nachdem der Kunde erfolgreich eingeloggt ist, werden seine Konten aus der Datenbank eingelesen 
+
+        console.log("Jetzt werden die Konten eingelesen")
+
+        // Wenn die Id des Kunden mit der Eingabe im Browser übereinstimmt
+        // UND ("&&") das Kennwort ebenfalls übereinstimmt,
+        // dann gibt der Server die gerenderte Index-Seite zurück.
       
-      serverAntwort.render('index.ejs', {})
-  }else{
+        serverAntwort.render('index.ejs', {})
+    }else{
 
-      // Wenn entweder die eingegebene Id oder das Kennwort oder beides
-      // nicht übereinstimmt, wird der Login verweigert. Es wird dann die
-      // gerenderte Login-Seite an den Browser zurückgegeben.
+        // Wenn entweder die eingegebene Id oder das Kennwort oder beides
+        // nicht übereinstimmt, wird der Login verweigert. Es wird dann die
+        // gerenderte Login-Seite an den Browser zurückgegeben.
 
-      serverAntwort.render('login.ejs', {
-          Meldung : "Ihre Zugangsdaten scheinen nicht zu stimmen."
-      })
-  }
+        serverAntwort.render('login.ejs', {
+            Meldung : "Ihre Zugangsdaten scheinen nicht zu stimmen."
+        })
+    }
 })
+
 
 // Wenn die login-Seite im Browser aufgerufen wird, ...
 
 meineApp.get('/login',(browserAnfrage, serverAntwort, next) => {              
 
-  // ... dann wird die login.ejs vom Server gerendert an den
-  // Browser zurückgegeben:
-
-  serverAntwort.clearCookie('istAngemeldetAls')
+    // ... dann wird die login.ejs vom Server gerendert an den
+    // Browser zurückgegeben:
 
     // Der Cookie wird gelöscht.
+
+    serverAntwort.clearCookie('istAngemeldetAls')
     
-  serverAntwort.render('login.ejs', {
-      Meldung : "Bitte geben Sie die Zugangsdaten ein."
-  })          
+    serverAntwort.render('login.ejs', {
+        Meldung : "Bitte geben Sie die Zugangsdaten ein."
+    })          
 })
 
 // Wenn die about-Seite angesurft wird, wird die about-Seite 
 // zum Browser zurückgegeben. 
 
- 
+meineApp.get('/about',(browserAnfrage, serverAntwort, next) => {              
+
+    // Wenn der Anmelde-Cookie gesetzt ist, wird der Nutzer zur
+    // About-Seite gelenkt.
+
+    if(browserAnfrage.signedCookies['istAngemeldetAls']){
+      
+        // Die About-Seite wird an den Browser gegeben:
+
+        serverAntwort.render('about.ejs',{})
+    }else{
+
+        // Wenn der Kunde noch nicht eigeloggt ist, soll
+        // die Loginseite an den Browser zurückgegeben werden.
+        serverAntwort.render('login.ejs', {
+            Meldung: ""
+        })
+    }         
+})
 
 meineApp.get('/profil',(browserAnfrage, serverAntwort, next) => {              
   
-  if(browserAnfrage.signedCookies['istAngemeldetAls']){
+    if(browserAnfrage.signedCookies['istAngemeldetAls']){
 
-    // Wenn der Kunde bereits angemeldet ist, soll die
-    // Index-Seite an den Browser gegeben werden.
-
-    serverAntwort.render('profil.ejs', {
-      Vorname: kunde.Vorname,
-      Nachname: kunde.Nachname,
-      Mail: kunde.Mail,
-      Rufnummer: kunde.Rufnummer,
-      Kennwort: kunde.Kennwort,
-      Erfolgsmeldung: ""
-    })       
-  }else{
-
-    // Wenn der Kunde noch nicht eigeloggt ist, soll
-    // die Loginseite an den Browser zurückgegeben werden.
-    serverAntwort.render('login.ejs', {
-        Meldung : ""
-    })
-  }       
+        serverAntwort.render('profil.ejs', {
+            Vorname: kunde.Vorname,
+            Nachname: kunde.Nachname,
+            Mail: kunde.Mail,
+            Rufnummer: kunde.Rufnummer,
+            Kennwort: kunde.Kennwort,
+            Erfolgsmeldung: ""
+        })       
+    }else{
+        serverAntwort.render('login.ejs', {   // Wenn der Kunde noch nicht eigeloggt ist, soll die Loginseite an den Browser zurückgegeben werden.
+            Meldung : ""
+        })
+    }       
 })
 
-// require('./Uebungen/ifUndElse.js')
-// require('./Uebungen/klasseUndObjekt.js')
+meineApp.get('/support',(browserAnfrage, serverAntwort, next) => {              
+  
+    if(browserAnfrage.signedCookies['istAngemeldetAls']){
+        serverAntwort.render('support.ejs', {
+            Vorname: kundenberater.Vorname,
+            Nachname: kundenberater.Nachname,
+            Mail: kundenberater.Mail,
+            Rufnummer: kundenberater.Rufnummer,
+            Position: kundenberater.Position,
+            Begruessung: kundenberater.Begruessung
+        })   
+    }else{
+        serverAntwort.render('login.ejs', {
+            Meldung : ""
+        })
+    }   
+})
+
+meineApp.get('/kreditBerechnen',(browserAnfrage, serverAntwort, next) => {              
+
+    if(browserAnfrage.signedCookies['istAngemeldetAls']){
+        serverAntwort.render('kreditBerechnen.ejs', {
+            Betrag: "",
+            Laufzeit: "",
+            Zinssatz:"",
+            Erfolgsmeldung:""
+      })
+    }else{
+        serverAntwort.render('login.ejs',{
+            Meldung: ""
+        })
+    }              
+})
+
+// Die Funktion meineApp.get('/kontoAnlegen'...  wird abgearbeitet, sobald die Seite
+// kontoanlegen im Browser aufgerufen wird.
+
+meineApp.get('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {              
+  
+    // Es wird geprüft, ob der User angemeldet ist, also ob der Cookie gesetzt ist. 
+
+    if(browserAnfrage.signedCookies['istAngemeldetAls']){
+
+        // Wenn der User bereits angemeldet ist, wird die kontoAnlegen-Seite gerendert...
+
+        serverAntwort.render('kontoAnlegen.ejs', {
+            Erfolgsmeldung: ""
+        })       
+    }else{
+
+        // Wenn der User nicht angemeldet ist, wird er zur Login-Seite zurückgeworfen
+
+        serverAntwort.render('login.ejs', {   // du bist nicht angemeldet 
+            Meldung : ""
+        })
+    }       
+})
+
 
 // Sobald der Speichern-Button auf der Profile-Seite gedrückt wird,
-// wird die meineApp.post('profile'...)abgearbeitet. 
+// wird die meineApp.post('profile'...) abgearbeitet.
 
 meineApp.post('/profil',(browserAnfrage, serverAntwort, next) => {              
   
-  // die Erfolgsmeldung für das Speichern der geänderten 
-  // Profildaten wird in eine lokale Variable namens
-  // erfolgsmeldung gespeichert. 
+    // die Erfolgsmeldung für das Speichern der geänderten 
+    // Profildaten wird in eine lokale Variable namens
+    // erfolgsmeldung gespeichert. 
 
-  let Erfolgsmeldung = ""
+    let Erfolgsmeldung = ""
 
-  // Der Wert der Eigenschaft von Mail im Browser wird 
-  // zugewiesen (=) an die Eigenschaft Mail des Objekts kunde 
+    // Der Wert der Eigenschaft von Mail im Browser wird 
+    // zugewiesen (=) an die Eigenschaft Mail des Objekts kunde 
   
-  if(kunde.Mail != browserAnfrage.body.Mail){
+    if(kunde.Mail != browserAnfrage.body.Mail){
 
-      // Wenn der Wert der Eigenschaft von kunde.Mail abweicht 
-      // vom Wert der Eigenschaft Mail aus dem Browser-Formular 
-      // dann wird die Erfolgsmeldung initialisiert: 
+        // Wenn der Wert der Eigenschaft von kunde.Mail abweicht 
+        // vom Wert der Eigenschaft Mail aus dem Browser-Formular 
+        // dann wird die Erfolgsmeldung initialisiert: 
 
-      Erfolgsmeldung = Erfolgsmeldung + "Änderung der Mail erfolgreich."
-      kunde.Mail = browserAnfrage.body.Mail
-      console.log(Erfolgsmeldung)
-  }
+        Erfolgsmeldung = Erfolgsmeldung + "Änderung der Mail erfolgreich."
+        kunde.Mail = browserAnfrage.body.Mail
+        console.log(Erfolgsmeldung)
+    }
 
-  if(kunde.Kennwort != browserAnfrage.body.Kennwort){
+    if(kunde.Kennwort != browserAnfrage.body.Kennwort){
 
-    // Wenn der Wert der Eigenschaft von kunde.Kennwort abweicht 
-    // vom Wert der Eigenschaft Kennwort aus dem Browser-Formular 
-    // dann wird die Erfolgsmeldung initialisiert: 
+        // Wenn der Wert der Eigenschaft von kunde.Kennwort abweicht 
+        // vom Wert der Eigenschaft Kennwort aus dem Browser-Formular 
+        // dann wird die Erfolgsmeldung initialisiert: 
 
-    Erfolgsmeldung = Erfolgsmeldung + "Änderung des Kennworts erfolgreich."
-    kunde.Kennwort = browserAnfrage.body.Kennwort
-    console.log(Erfolgsmeldung)
-} 
+        Erfolgsmeldung = Erfolgsmeldung + "Änderung des Kennworts erfolgreich."
+        kunde.Kennwort = browserAnfrage.body.Kennwort
+        console.log(Erfolgsmeldung)
+    }   
 
-if(kunde.Rufnummer != browserAnfrage.body.Rufnummer){
+    if(kunde.Rufnummer != browserAnfrage.body.Rufnummer){
 
-  // Wenn der Wert der Eigenschaft von kunde.Rufnummer abweicht 
-  // vom Wert der Eigenschaft Rufnummer aus dem Browser-Formular 
-  // dann wird die Erfolgsmeldung initialisiert: 
+        // Wenn der Wert der Eigenschaft von kunde.Rufnummer abweicht 
+        // vom Wert der Eigenschaft Rufnummer aus dem Browser-Formular 
+        // dann wird die Erfolgsmeldung initialisiert: 
 
-  Erfolgsmeldung = Erfolgsmeldung + "Änderung der Rufnummer erfolgreich."
-  kunde.Rufnummer = browserAnfrage.body.Rufnummer
-  console.log(Erfolgsmeldung)
-}
+        Erfolgsmeldung = Erfolgsmeldung + "Änderung der Rufnummer erfolgreich."
+        kunde.Rufnummer = browserAnfrage.body.Rufnummer
+        console.log(Erfolgsmeldung)
+    }
 
-  //von rechts nach links lesen: wird zugewiesen zu Mail des Objekts Kunden 
-  kunde.Kennwort = browserAnfrage.body.Kennwort // der Wert von K. wird zugewiesen an die Eigenschaft K. vom Kunden 
-  kunde.Rufnummer = browserAnfrage.body.Rufnummer
+    console.log("Profil gespeichert.")
 
-  console.log("Profil gespeichert")
-  
-      serverAntwort.render('profil.ejs', {
+    serverAntwort.render('profil.ejs', {
         Vorname: kunde.Vorname,
         Nachname: kunde.Nachname,
         Mail: kunde.Mail,
         Rufnummer: kunde.Rufnummer,
         Kennwort: kunde.Kennwort,
-        Erfolgsmeldung: Erfolgsmeldung
-      })
-})
-
-
-
-meineApp.get('/support',(browserAnfrage, serverAntwort, next) => {              
-  
-  if(browserAnfrage.signedCookies['istAngemeldetAls']){
-
-    serverAntwort.render('support.ejs', {
-      Vorname: kundenberater.Vorname,
-      Nachname: kundenberater.Nachname,
-      Mail: kundenberater.Mail,
-      Rufnummer: kundenberater.Rufnummer,
-      Profil: kundenberater.Profil,
-      Position: kundenberater.Position,
-      Bergruessung: kundenberater.Bergruessung
-    })   
-
-  }else{
-
-    // Wenn der Kunde noch nicht eigeloggt ist, soll
-    // die Loginseite an den Browser zurückgegeben werden.  
-    serverAntwort.render('login.ejs', {
-        Meldung : ""
+        Erfolgsmeldung: erfolgsmeldung
     })
-}   
 })
+
+// Sobald der Button "Kontostand anzeigen" auf der index-Seite gedrückt wird, 
+// wird die meineApp.get('/kontostandAnzeigen'-Funktion abgearbeitet.
 
 meineApp.get('/kontostandAnzeigen',(browserAnfrage, serverAntwort, next) => {              
 
-  // Wenn der Anmelde-Cookie gesetzt ist, wird der Nutzer zur
-  // About-Seite gelenkt. 
+    // Wenn ein signierter Cookie mit Namen 'istAngemeldetAls' im Browser vorhanden ist,
+    // dann ist die Prüfung WAHR und die Anweisungen im Rumpf der if-Kontrollstruktur 
+    // werden abgearbeitet.
 
-  if(browserAnfrage.signedCookies['istAngemeldetAls']){
+    if(browserAnfrage.signedCookies['istAngemeldetAls']){
 
-    // Die About-Seite wird an den Browser gegeben: 
+        // In MySQL werden Abfragen gegen die Datenbank wie folgt formuliert;
+        // Der Abfragebefehl beginnt mit SELECT.
+        // Anschließend wird die interessierende Spalte angegeben. 
+        // Mehrere interessierende Spalten werden mit Komma getrentt angegeben. 
+        // Wenn alle Spalten ausgewählt werden sollen, kann vereinfachend * angegeben werden. 
+        //  Beispiele: SELECT iban, anfangssaldo FROM...' oder 'SELECT * FROM....'
+        // Mit FROM wird die Tabelle angegeben, aus der der Result eingelesen werden soll.
+        // Mit WHERE wird zeilenwiese gefilert 
 
-    serverAntwort.render('kontostandAnzeigen.ejs', {
-      Erfolgsmeldung : ""
-  })          
-      
-  }else{
+        dbVerbindung.query('SELECT * FROM konto WHERE idKunde = 154291;', function (fehler, result) {
+            console.log(result)
 
-    // Wenn der Kunde noch nicht eigeloggt ist, soll
-    // die Loginseite an den Browser zurückgegeben werden.
-    serverAntwort.render('login.ejs', {
-        Meldung : ""
-    })
-  }        
-})
+            // Die Index-Seite wird an den Browser gegeben (man sagt auch gerendert)
 
-meineApp.get('/kreditBerechnen',(browserAnfrage, serverAntwort, next) => {              
-  
-  // Wenn ein signierter Cookie mit Namen 'istAngemeldetAls' im Browser vorhanden ist,
-  // dann ist die Prüfung wahr und es wird die gerenderte Index-Seite an den Browser 
-  // zurückgegeben. Anderenfalls wird die Login-Seite an den Browser gegeben. 
+            serverAntwort.render('kontostandAnzeigen.ejs', {
+                MeineIbans: result,
+                Kontostand: konto.Kontostand,
+                IBAN: konto.Iban,
+                Kontoart: konto.Kontoart,
+                Erfolgsmeldung : ""
+            })   
+        })
+    }else{
 
-  if(browserAnfrage.signedCookies['istAngemeldetAls']){
+        // Wenn der Kunde noch nicht eigeloggt ist, soll
+        // die Loginseite an den Browser zurückgegeben werden.
 
-  
-
-      serverAntwort.render('kreditBerechnen.ejs',{
-        Meldung : "",
-          Betrag: "",
-          Laufzeit: "",
-          Zinssatz: "",
-          Erfolgsmeldung:""
-      })
-  }else{
-
-      // Wenn der Kunde noch nicht eigeloggt ist, soll
-      // die Loginseite an den Browser zurückgegeben werden.
-      serverAntwort.render('index.ejs', {
-          
-      })
-  }                 
+        serverAntwort.render('login.ejs', {
+            Meldung : ""
+        })
+    }        
 })
 
 
-
-// Die Funktion meineApp.get('/kontoAnlegen'...wird abgearbeitet), sobald die Seite
-// kontoanlegen im Browser aufgerufen wird. .
-
-meineApp.get('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {              
-  
-  // Es wird geprüft, ob der User angemeldet ist, also ob der Cookie gesetzt ist. 
-
-  if(browserAnfrage.signedCookies['istAngemeldetAls']){
-
-    // Wenn der User bereits angemeldet ist, wird die kontoAnlegen-Seite gerendert...
-
-    serverAntwort.render('kontoAnlegen.ejs', {
-    Konstand:  konto.Kontostand = 1000000,                                 
-    IBAN: konto.IBAN = "DE1234567890123456",
-    Kontoart: konto.Kontoart = "Tagesgeldkonto",
-    PIN: konto.PIN = 987123
-    })       
-  }else{
-
-    // Wenn der Kunde noch nicht eigeloggt ist, soll
-    // er zur Login-Seite zurückgeworfen worden. 
-
-    serverAntwort.render('login.ejs', {   // du bist nicht angemeldet 
-        Meldung : ""
-    })
-  }       
-})
-
-
-// Die Funktion meineApp.post('/kontoAnlegen'... wird abgearbeitet, sobald 
-// der Button auf der kontoAnlegen-Seite gedrückt wird und das Formular abgesendet wird. 
+// Die Funktion meineApp.post('/kontoAnlegen'... wird abgearbeitet, sobald der Button 
+// auf der kontoAnlegen-Seite gedrückt wird und das Formular abgesendet ('gepostet') wird.
 
 meineApp.post('/kontoAnlegen',(browserAnfrage, serverAntwort, next) => {              
   
-  // Die im Formular eingegebene Kontoart wird an die Konstante namens kontoArt zugewiesen. 
-  
-  const kontoArt = browserAnfrage.body.kontoArt  // der Wert den select in Kontoanlegen hat wird der // Konstante Kontoart zugewiesen 
-  
-  console.log("Gewählte Kontoart: " + kontoArt)
+    let erfolgsmeldung = ""
 
-  // Die IBAN wird automatisch erzeugt. Die IBAN kennzeichnet das anzulegende Konto einmalig (Primary Key).
+    // Die im Formular eingegebene Kontoart wird an die Konstante namens kontoArt zugewiesen. 
+  
+    const kontoArt = browserAnfrage.body.kontoArt  // der Wert den select in Kontoanlegen hat wird der // Konstante Kontoart zugewiesen 
+  
+    console.log("Gewählte Kontoart: " + kontoArt)
 
-  // Ein String mit dem Wert "DE" wird zugewiesen an eine Variable namens ländererkennung 
+    // Die IBAN wird automatisch erzeugt. Die IBAN kennzeichnet das anzulegende Konto einmalig (Primary Key).
+
+    // Ein String mit dem Wert "DE" wird zugewiesen an eine Variable namens ländererkennung 
 
 let laendererkennung = "DE" 
 
@@ -640,41 +635,31 @@ if(IBAN.isValid(iban)){
 
 // Für die generierte IBAN muss ein neuer Datensatz in der Tabelle Konto angelegt werden. 
 
-dbVerbindung.query('INSERT INTO konto(iban, idKunde, anfangssaldo, kontoart, timestamp) VALUES ("' + iban + '", 154291, 1 , "' + kontoArt + NOW()) ;', function (fehler) {
-
-
-      if(fehler) {
-
-      // ... und der Fehlercode "ER_TABLE_EXISTS_ERROR" lautet,
-
-        if(fehler.code == "ER_TABLE_EXISTS_ERROR"){
-
-      // ... dann wird eine Fehlermeldung geloggt.
-
-              console.log("Tabelle kredit existiert bereits und wird nicht angelegt.")
+dbVerbindung.query('INSERT INTO konto(iban, idKunde, anfangssaldo, kontoart, timestamp) VALUES ("' + iban + '", 154291, 1, "' + kontoArt + '", NOW()) ;', function (fehler) {
+      
+    // Falls ein Problem bei der Query aufkommt, ...
+    
+    if (fehler) {
+    
+        erfolgsmeldung = "Fehler: " + fehler 
         
-          }else{
-              console.log("Fehler: " + fehler )
-          }
-      }else{
-            console.log("Neues Konto in der Tabelle angelegt.")
-      }
-  })
-})
-  
-  serverAntwort.render('kontoAnlegen.ejs', {
-      Erfolgsmeldung: "Das " + kontoArt + " mit der Iban " + "iban + wurde erfolgreich angelegt"
-  })   
+    }else{
+        erfolgsmeldung = "Neues Konto in der Tabelle konto angelegt."
+    }
+
 })
 
-  // Die Identität des Kunden wird überprüft.
-  
+    // Nach dem Erstellen des Kontos wird die Serverantwort an den Browser zurückgegeben. 
 
+    serverAntwort.render('kontoAnlegen.ejs', {
 
+        // Damit die Erfolgsmeldung auf der ejs-Seite angezeigt wird, muss es auf der ejs-Seite eine Variable
+        // namens <%= Erfolgsmeldung %> geben. 
 
+        Erfolgsmeldung: erfolgsmeldung
+    })
 
-
-
+})
 
 
 // require('./Uebungen/ifUndElse.js')
@@ -682,3 +667,9 @@ dbVerbindung.query('INSERT INTO konto(iban, idKunde, anfangssaldo, kontoart, tim
 // require('./Klausuren/20221026_klausur.js')
 // require('./Klausuren/20230111_klausur.js')
 // require('./Klausuren/Klausur_vorbereitung.js')
+
+
+//von rechts nach links lesen: wird zugewiesen zu Mail des Objekts Kunden 
+// der Wert von K. wird zugewiesen an die Eigenschaft K. vom Kunden 
+
+
